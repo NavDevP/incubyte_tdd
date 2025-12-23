@@ -1,5 +1,7 @@
 import 'package:dart/exceptions/exceptions.dart';
 
+const maximumNumber = 1000;
+
 int add(String numbers) {
   if (numbers.isEmpty) {
     return 0;
@@ -23,5 +25,5 @@ int add(String numbers) {
   return mainNumbersString
       .split(delimiter)
       .map(int.parse)
-      .reduce((a, b) => a + b);
+      .fold(0, (main, n) => main + (n <= maximumNumber ? n : 0));
 }
