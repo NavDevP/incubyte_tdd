@@ -10,9 +10,14 @@ int add(String numbers) {
   var mainNumbersString = numbers;
   RegExp delimiter = RegExp(r'[\n,]');
 
-  if (numbers.startsWith('//')) {
+  if(numbers.startsWith('//[')) {
     var parts = numbers.split('\n');
-    delimiter = RegExp(r'[' + parts[0].substring(2) + r']');
+    var customDelimiter = parts[0].substring(3, parts[0].length - 1);
+    delimiter = RegExp(RegExp.escape(customDelimiter));
+    mainNumbersString = parts[1];
+  } else if (numbers.startsWith('//')) {
+    var parts = numbers.split('\n');
+    delimiter = RegExp(RegExp.escape(parts[0].substring(2)));
     mainNumbersString = parts[1];
   }
 

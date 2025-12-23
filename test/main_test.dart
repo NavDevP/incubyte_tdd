@@ -17,5 +17,7 @@ void main() {
     expect(add("1020,4,3"), 7, reason: "1020 is greater than 1000 so it should be ignored");
     expect(add("1020,1001,8888"), 0, reason: "all numbers greater than 1000 so they should be ignored, output 0");
     expect(add("2,1000,3"), 1005, reason: "number is not greater than 1000 so the sum includes it");
+    expect(add("//[**]\n1**5**3"), 9, reason: "** custom delimiter of any length should work");
+    expect(add("//[####]\n1####5####3"), 9, reason: "#### custom delimiter of any length should work");
   });
 }
