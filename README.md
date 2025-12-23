@@ -1,2 +1,12 @@
-A sample command-line application with an entrypoint in `bin/`, library code
-in `lib/`, and example unit test in `test/`.
+## Running Tests
+
+=> Install Dependencies
+
+```bash
+dart pub get
+```
+
+=> Run a Specific Test File
+```bash
+dart test ./test/
+```
