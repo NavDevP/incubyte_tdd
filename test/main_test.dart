@@ -2,7 +2,8 @@ import 'package:dart/main.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('calculate', () {
-    expect(calculate(), 42);
+  test('add', () {
+    expect(add(""), 0);
+    expect(add("1,2"), 3);
   });
 }
