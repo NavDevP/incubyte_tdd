@@ -1,3 +1,4 @@
+import 'package:dart/exceptions/exceptions.dart';
 import 'package:dart/main.dart';
 import 'package:test/test.dart';
 
@@ -9,5 +10,8 @@ void main() {
     expect(add("//;\n1;2"), 3);
     expect(add("//~\n1~2~50"), 53);
     expect(add("//&\n1&2&2"), 5);
+    expect(() => add("1,-2,3"), throwsA(isA<NegativeError>()));
+    expect(() => add("//&\n1&-2&3"), throwsA(isA<NegativeError>()));
+    expect(() => add("//&\n1&-2&-3&-4&5"), throwsA(isA<NegativeError>()));
   });
 }
