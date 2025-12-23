@@ -8,27 +8,37 @@ int add(String numbers) {
   }
 
   var mainNumbersString = numbers;
-  RegExp delimiter = RegExp(r'[\n,]');
+  var delimiter = ['\n',','];
 
-  if(numbers.startsWith('//[')) {
-    var parts = numbers.split('\n');
-    var customDelimiter = parts[0].substring(3, parts[0].length - 1);
-    delimiter = RegExp(RegExp.escape(customDelimiter));
-    mainNumbersString = parts[1];
-  } else if (numbers.startsWith('//')) {
-    var parts = numbers.split('\n');
-    delimiter = RegExp(RegExp.escape(parts[0].substring(2)));
-    mainNumbersString = parts[1];
+  try {
+    if (numbers.startsWith('//')) {
+      final index = numbers.indexOf('\n');
+      final firstPart = numbers.substring(2, index);
+      mainNumbersString = numbers.substring(index + 1);
+
+      final delMatches = RegExp(r'\[(.*?)\]').allMatches(firstPart);
+      if (delMatches.isNotEmpty) {
+        delimiter = delMatches.map((m) => m.group(1)!).toList();
+      } else {
+        delimiter = [firstPart];
+      }
+    }
+
+    final escaped = delimiter.map(RegExp.escape).toList();
+    final delimiterFilter = RegExp('(${escaped.map((d) => '$d+').join('|')})');
+
+    var splitted = mainNumbersString.split(delimiterFilter);
+    var negatives = splitted.where((numStr) => int.parse(numStr) < 0).join(',');
+    if (negatives.isNotEmpty) {
+      throw NegativeError(negatives.split(',').map(int.parse).toList());
+    }
+
+    return mainNumbersString
+        .split(delimiterFilter)
+        .map(int.parse)
+        .fold(0, (main, n) => main + (n <= maximumNumber ? n : 0));
+  } catch (e) {
+    if (e is NegativeError) rethrow;
+    throw Exception('Invalid Numbers String');
   }
-
-  var splitted = mainNumbersString.split(delimiter);
-  var negatives = splitted.where((numStr) => int.parse(numStr) < 0).join(',');
-  if (negatives.isNotEmpty) {
-    throw NegativeError(negatives.split(',').map(int.parse).toList());
-  }
-
-  return mainNumbersString
-      .split(delimiter)
-      .map(int.parse)
-      .fold(0, (main, n) => main + (n <= maximumNumber ? n : 0));
 }

@@ -19,5 +19,7 @@ void main() {
     expect(add("2,1000,3"), 1005, reason: "number is not greater than 1000 so the sum includes it");
     expect(add("//[**]\n1**5**3"), 9, reason: "** custom delimiter of any length should work");
     expect(add("//[####]\n1####5####3"), 9, reason: "#### custom delimiter of any length should work");
+    expect(add("//[*][%]\n1*2%3"), 6, reason: "multiple custom single character delimiters should work");
+    expect(add("//[***][%%]\n1***2%%3"), 6, reason: "multiple custom delimiters of any length should work");
   });
 }
